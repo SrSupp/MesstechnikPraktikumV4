@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Name=Messtechnik Praktikum Simulation
+Comment=Mit dieser Verknuepfung werden alle erforderlichen Nodes zum Benutzen der Simulation um den Helene Roboterarm gestartet
+GenericName=Start simulated Helene
+Keywords=System;Robotarm;ROS;noetic;Helene
+Exec=bash -c "source /opt/ros/noetic/setup.bash;source ~/ros_ws/devel/setup.bash;sleep 1;roslaunch messtechnik_praktikum messtechnik_praktikum.launch  simulation:=false"
+Terminal=true
+Type=Application
+Icon=messtechnik_praktikum_sim.png
+Categories=Development;

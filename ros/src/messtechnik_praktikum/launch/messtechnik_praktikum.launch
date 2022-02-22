@@ -1,0 +1,24 @@
+<launch>
+  <arg name="paused" default="false"/>
+  <arg name="gazebo_gui" default="true"/>
+  <arg name="simulation" default="true"/>
+
+  <group if="$(arg simulation)">
+    <include file="$(find applications_helene)/launch/simulation.launch">
+        <arg name="world_name" value="$(find messtechnik_praktikum)/world/praktikum.sdf"/>
+        <arg name="paused" value="$(arg paused)"/>
+        <arg name="gazebo_gui" value="$(arg gazebo_gui)"/>
+        <arg name="end_effector" value="needle"/>
+    </include>
+  </group>
+  <group unless="$(arg simulation)">
+    <include file="$(find applications_helene)/launch/realrobot.launch">
+        <!-- <arg name="world_name" value="$(find messtechnik_praktikum)/world/praktikum.sdf"/> -->
+        <!-- <arg name="paused" value="$(arg paused)"/> -->
+        <!-- <arg name="gazebo_gui" value="$(arg gazebo_gui)"/> -->
+        <arg name="end_effector" value="needle"/>
+    </include>
+  </group>
+    <node name="moveit_setup_node" pkg="messtechnik_praktikum" type="moveit_setup_node" respawn="false" output="screen">
+    </node>
+</launch>

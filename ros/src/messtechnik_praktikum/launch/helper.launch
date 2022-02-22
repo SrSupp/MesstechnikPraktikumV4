@@ -1,0 +1,3 @@
+<launch>
+    <node name="helper" pkg="messtechnik_praktikum" type="helper.py" respawn="false" output="screen"/>
+</launch>
