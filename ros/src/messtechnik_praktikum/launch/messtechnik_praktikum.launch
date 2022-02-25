@@ -17,6 +17,7 @@
         <!-- <arg name="paused" value="$(arg paused)"/> -->
         <!-- <arg name="gazebo_gui" value="$(arg gazebo_gui)"/> -->
         <arg name="end_effector" value="needle"/>
+        <arg name="use_usb" value="false"/>
     </include>
   </group>
     <node name="moveit_setup_node" pkg="messtechnik_praktikum" type="moveit_setup_node" respawn="false" output="screen">
