@@ -57,6 +57,8 @@ class MoveGroupHelper(helene_helper):
     # Add cylinder containing tumor to scene
     self.__add_hollow_cylinder()
 
+  def sleep(self, time_in_sec):
+    rospy.sleep(time_in_sec)
 
   def get_cylinder_pose(self):
     """Get pose message for cylinder from planning scene"""
@@ -102,7 +104,7 @@ class MoveGroupHelper(helene_helper):
     return self.__wait_for_state_update(self.cylinder_name, cylinder_is_known=False, timeout=timeout)
 
 
-  def enable_probing(self):
+  def add_tumor(self):
     """Enable probing, which allows the robot to pierce the cylinder from the top and imposes motion constraints"""
     # Replace solid cylinder with hollow cylinder
     self.__add_hollow_cylinder()
@@ -112,7 +114,7 @@ class MoveGroupHelper(helene_helper):
     #self.move_group.set_max_acceleration_scaling_factor(0.1)
 
 
-  def disable_probing(self):
+  def remove_tumor(self):
     """Disable probing"""
     # Replace hollow cylinder with solid cylinder
     self.__add_cylinder()
@@ -120,6 +122,12 @@ class MoveGroupHelper(helene_helper):
     # Reset movement speed to normal speed
     #self.move_group.set_max_velocity_scaling_factor(0.8)
     #self.move_group.set_max_acceleration_scaling_factor(1)
+
+  def probing_start(self):
+    self.set_reserved(1)
+
+  def probing_end(self):
+    self.set_reserved(0)
 
 
   def go_to_probing_pos(self):
@@ -242,7 +250,7 @@ def main():
 
     input("\n-- Press ENTER to start probing --")
 
-    helper.enable_probing()
+    helper.add_tumor()
 
     cartesian_plan, fraction = helper.plan_probing(z=-0.06)
 
@@ -254,7 +262,7 @@ def main():
 
     helper.execute_plan(cartesian_plan)
 
-    helper.disable_probing()
+    helper.remove_tumor()
 
     input("\n-- Press ENTER to stop the demo and return to start --")
 

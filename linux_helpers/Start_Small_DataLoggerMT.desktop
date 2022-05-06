@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Name=Helene DataLog
+Comment=DataLog for Helene
+GenericName=Helene DataLog
+Keywords=System;Robotarm;ROS;noetic;Helene
+Exec=bash -ic "cd ~/ros_ws/src/MesstechnikPraktikumV6/studentworkspace; source /opt/ros/noetic/setup.bash;source ~/ros_ws/devel/setup.bash;source ~/.bashrc;sleep 1;rosrun applications_helene data_logger"
+Terminal=true
+Type=Application
+Icon=Icon_Log_Norm_MT.png
+Categories=Development;
