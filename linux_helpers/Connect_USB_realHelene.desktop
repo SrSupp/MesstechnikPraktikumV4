@@ -1,8 +1,8 @@
 [Desktop Entry]
 Version=1.0
-Name=Messtechnik Praktikum: Connect Helene
+Name=MTP: Connect Helene
 Comment=Connect to a Helene via USB_Serial at 1000000 baud
-GenericName=Messtechnik Praktikum: Connect Helene
+GenericName=MTP: Connect Helene
 Keywords=System;Robotarm;ROS;noetic;Helene
 Exec=bash -ic "source /opt/ros/noetic/setup.bash;source ~/ros_ws/devel/setup.bash;source ~/.bashrc;sleep 1;roslaunch messtechnik_praktikum ConnectUSBRobot.launch"
 Terminal=true

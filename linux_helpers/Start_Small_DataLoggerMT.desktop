@@ -1,8 +1,8 @@
 [Desktop Entry]
 Version=1.0
-Name=Messtechnik Praktikum: DataLog
+Name=MTP: DataLog
 Comment=This is the Datalog specifically designed for Messtechnik Praktikum at TU Darmstadt
-GenericName=Messtechnik Praktikum: DataLog
+GenericName=MTP: DataLog
 Keywords=System;Robotarm;ROS;noetic;Helene
 Exec=bash -ic "cd ~/ros_ws/src/MesstechnikPraktikumV6/studentworkspace; source /opt/ros/noetic/setup.bash;source ~/ros_ws/devel/setup.bash;source ~/.bashrc;sleep 1;rosrun applications_helene data_logger"
 Terminal=true
