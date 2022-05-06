@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Name=MTP: Reset MTP Folder
+Comment=Resets the whole Messtechnik Praktikums stuff
+GenericName=MTP: Reset MTP Folder
+Keywords=System;Robotarm;ROS;noetic;Helene
+Exec=bash -ic "source /opt/ros/noetic/setup.bash;source ~/ros_ws/devel/setup.bash;source ~/.bashrc;sleep 1;cd ~/ros_ws/src/MesstechnikPraktikumV6; git reset --hard; git pull; cd ~/ros_ws; catkin clean -y; catkin build"
+Terminal=true
+Type=Application
+Icon=reset_icon.png
+Categories=Development;
