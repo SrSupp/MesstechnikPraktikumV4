@@ -1,8 +1,8 @@
 [Desktop Entry]
 Version=1.0
-Name=Messtechnik Praktikum Simulation
-Comment=Mit dieser Verknuepfung werden alle erforderlichen Nodes zum Benutzen der Simulation um den Helene Roboterarm gestartet
-GenericName=Start simulated Helene
+Name=Messtechnik Praktikum: Helene Simulation with Needle
+Comment=Mit dieser Verknuepfung werden alle erforderlichen Nodes zum Benutzen der Simulation um den Helene Roboterarm gestartet. Ohne Nadel allerdings :)
+GenericName=Messtechnik Praktikum: Helene Simulation with Needle
 Keywords=System;Robotarm;ROS;noetic;Helene
 Exec=bash -ic "sed -i '/export ROS_MASTER_URI/d' ~/.bashrc;source /opt/ros/noetic/setup.bash;source ~/ros_ws/devel/setup.bash;sleep 1;roslaunch messtechnik_praktikum messtechnik_praktikum.launch"
 Terminal=true
