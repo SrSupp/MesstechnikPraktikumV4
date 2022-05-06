@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from shutil import move
+from socket import timeout
 import sys
 import copy
 from time import sleep
@@ -17,14 +18,10 @@ from std_msgs.msg import String
 from moveit_commander.conversions import pose_to_list
 from tf.transformations import *
 # Import with ROS reference for runtime and relative path reference for IDE
-from applications_helene.helpy import *
-try:
-  from applications_helene.scripts.helpy import *
-except Exception:
-  pass
-## END_SUB_TUTORIAL
+from helene_helper import *
 
-class MoveGroupHelper(helpy):
+
+class MoveGroupHelper(helene_helper):
   """MoveGroupHelper, inherits from helpy"""
   def __init__(self):
     """Constructor for MoveGroupHelper"""
@@ -58,7 +55,7 @@ class MoveGroupHelper(helpy):
     self.start_pose = copy.deepcopy(self.move_group.get_current_pose().pose)
 
     # Add cylinder containing tumor to scene
-    self.__add_cylinder()
+    self.__add_hollow_cylinder()
 
 
   def get_cylinder_pose(self):
@@ -93,78 +90,6 @@ class MoveGroupHelper(helpy):
     return relative_orientation_msg
 
 
-  def __get_orientation_constraints(self):
-    """Create orientation constraints that lock robots current end effector orientation"""
-    # Create empty orientation constraint message
-    orientation_constraint = moveit_msgs.msg.OrientationConstraint()
-
-    # Set constrained link and base link for coordinate reference
-    orientation_constraint.link_name = "axis_6"
-    orientation_constraint.header.frame_id = "axis_0"
-
-    # Get orientation of constrained link relative to reference link
-    relative_orientation_msg = self.__get_relative_orientation("axis_6", "axis_0")
-
-    # Set orientation constraint
-    orientation_constraint.orientation = relative_orientation_msg
-
-    # Set tolerances around each axis
-    orientation_constraint.absolute_x_axis_tolerance = 0.1
-    orientation_constraint.absolute_y_axis_tolerance = 0.1
-    orientation_constraint.absolute_z_axis_tolerance = 0.1
-    orientation_constraint.weight = 1.0
-
-    return orientation_constraint
-
-
-  def __get_position_constraints(self):
-    """Create position constraints (currently not working)"""
-    # TODO Get position constraints working
-    # Create empty constraint message
-    position_constraint = moveit_msgs.msg.PositionConstraint()
-
-    # Set constrained link and base link for coordinate reference
-    position_constraint.link_name = "axis_6"
-    position_constraint.header.frame_id = "axis_0"
-
-    # Define constraint region in the shape of a narrow cylinder
-    position_constraint.target_point_offset.z = 0.5
-    bounding_region = shape_msgs.msg.SolidPrimitive()
-    bounding_region.type = bounding_region.CYLINDER
-    bounding_region.dimensions = [0, 0]
-    bounding_region.dimensions[bounding_region.CYLINDER_HEIGHT] = 1
-    bounding_region.dimensions[bounding_region.CYLINDER_RADIUS] = 0.01
-
-    # Add constraint region to position constraint
-    position_constraint.constraint_region.primitives.append(bounding_region)
-
-    return position_constraint
-
-
-  def __apply_constraints(self):
-    """Apply motion constraints (orientation and position)"""
-    # Create empty constraints message
-    constraints = moveit_msgs.msg.Constraints()
-
-    # Create orientation constraint and position constraint
-    orientation_constraint = self.__get_orientation_constraints()
-    position_constraint = self.__get_position_constraints()
-
-    # Add constraints to constraints message
-    constraints.orientation_constraints.append(orientation_constraint)
-    constraints.position_constraints.append(position_constraint)
-
-    # Apply constraints
-    self.move_group.set_path_constraints(constraints)
-    self.cartesian_constraints = constraints
-
-
-  def __clear_constraints(self):
-    """Clear motion constraints"""
-    self.cartesian_constraints = None
-    self.move_group.clear_path_constraints()
-
-
   def __remove_cylinder(self, timeout=4):
     """Remove cylinder from planning scene"""
     self.__wait_for_state_update(self.cylinder_name, cylinder_is_known=True, timeout=timeout)
@@ -179,14 +104,12 @@ class MoveGroupHelper(helpy):
 
   def enable_probing(self):
     """Enable probing, which allows the robot to pierce the cylinder from the top and imposes motion constraints"""
-    # Apply orientation constraints
-    self.__apply_constraints()
     # Replace solid cylinder with hollow cylinder
     self.__add_hollow_cylinder()
     self.__remove_cylinder()
     # Set slower movement speed
-    self.move_group.set_max_velocity_scaling_factor(0.01)
-    self.move_group.set_max_acceleration_scaling_factor(0.1)
+    #self.move_group.set_max_velocity_scaling_factor(0.01)
+    #self.move_group.set_max_acceleration_scaling_factor(0.1)
 
 
   def disable_probing(self):
@@ -194,11 +117,9 @@ class MoveGroupHelper(helpy):
     # Replace hollow cylinder with solid cylinder
     self.__add_cylinder()
     self.__remove_hollow_cylinder()
-    # Clear orientation constraints
-    self.__clear_constraints()
     # Reset movement speed to normal speed
-    self.move_group.set_max_velocity_scaling_factor(0.8)
-    self.move_group.set_max_acceleration_scaling_factor(1)
+    #self.move_group.set_max_velocity_scaling_factor(0.8)
+    #self.move_group.set_max_acceleration_scaling_factor(1)
 
 
   def go_to_probing_pos(self):
@@ -246,8 +167,8 @@ class MoveGroupHelper(helpy):
     (plan, fraction) = self.move_group.compute_cartesian_path(
                         waypoints,                                        # waypoints to follow
                         0.01,                                             # eef_step
-                        0.0,                                              # jump_threshold
-                        path_constraints = self.cartesian_constraints)    # constraints
+                        0.0                                              # jump_threshold
+                        )    # constraints
 
     # Note: We are just planning, not asking move_group to actually move the robot yet:
     return plan, fraction
@@ -286,7 +207,7 @@ class MoveGroupHelper(helpy):
     cylinder_pose.pose.position.z -= 0.035
     filename = os.path.join(self.rospack.get_path('messtechnik_praktikum') ,"stl/hollow_cylinder.stl")
     self.planning_scene.add_mesh(self.hollow_cylinder_name, pose=cylinder_pose, filename=filename)
-    self.__wait_for_state_update(self.hollow_cylinder_name, cylinder_is_known=True)
+    return self.__wait_for_state_update(self.hollow_cylinder_name, cylinder_is_known=True)
 
 
   def __remove_hollow_cylinder(self):
