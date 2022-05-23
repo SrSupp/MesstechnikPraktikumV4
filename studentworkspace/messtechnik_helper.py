@@ -229,44 +229,42 @@ class MoveGroupHelper(helene_helper):
 
 def main():
   try:
-    helper = MoveGroupHelper()
+    helene = MoveGroupHelper()
 
-    input("\n-- Press ENTER to start the demo --")
+    helene.set_led_blue(0)
+    helene.set_led_green(0)
+    helene.set_speed_scaler(1)
+    helene.move_ptp_home_pos()
 
-    helper.go_to_probing_pos()
+    print(helene.get_actual_pos())
+    helene.set_speed_scaler(0.3)
+    helene.set_led_green(255)
+    Frame_Start = [0.289,0.0,0.30, *(pi, -pi/2, 0)]
+    helene.move_ptp_abs(Frame_Start)
+    print(helene.get_actual_pos())
 
-    input("\n-- Press ENTER to turn on the blue light --")
+    helene.sleep(1)
 
-    helper.set_led_blue(255)
+    helene.probing_start()
+    helene.set_led_green(0)
+    helene.set_led_blue(255)
+    helene.set_speed_scaler(0.02)
+    Frame_Test = [0.289,0.0,0.22, *(pi, -pi/2, 0)]
+    helene.move_lin_abs(Frame_Test)
+    helene.sleep(3)
+    print(helene.get_actual_pos())
+    helene.probing_end()
 
-    input("\n-- Press ENTER to turn on the green light --")
+    helene.set_led_green(255)
+    helene.set_led_blue(0)
+    helene.set_speed_scaler(0.1)
+    helene.move_lin_rel([0,0,0.1,*(0,0,0)])
 
-    helper.set_led_green(255)
-
-    input("\n-- Press ENTER to turn off the lights --")
-
-    helper.set_led_blue(0)
-    helper.set_led_green(0)
-
-    input("\n-- Press ENTER to start probing --")
-
-    helper.add_tumor()
-
-    cartesian_plan, fraction = helper.plan_probing(z=-0.06)
-
-    helper.execute_plan(cartesian_plan)
-
-    input("\n-- Press ENTER to retract the needle --")
-
-    cartesian_plan, fraction = helper.plan_probing(z=0.06)
-
-    helper.execute_plan(cartesian_plan)
-
-    helper.remove_tumor()
-
-    input("\n-- Press ENTER to stop the demo and return to start --")
-
-    helper.go_home()
+    helene.set_led_blue(0)
+    helene.set_led_green(0)
+    helene.set_speed_scaler(1)
+    helene.move_ptp_home_pos()
+    print("Fertig")
 
     print("\n-- Helper demo complete! --")
   except rospy.ROSInterruptException:

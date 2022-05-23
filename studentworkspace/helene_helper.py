@@ -74,6 +74,7 @@ class helene_helper:
 
     #Set speed
     def set_speed_scaler(self, speed):
+        """Sets each movement after the command to the given speed. Value is a float between 0 and 1, where 1 is 100% of Helenes maximum speed. 0.5 therefore is 50% of Helenes maximum speed."""
         global globalVelocityScaling
         globalVelocityScaling = speed
         self.move_group.set_max_velocity_scaling_factor(speed)
@@ -90,9 +91,11 @@ class helene_helper:
         self.pub_reserved.publish(reserved)
     #Set reserved Uint8
     def set_led_blue(self, led_blue):
+        """value can be an integer between 0 and 255, turns on the blue LED of Helene. 0 turns the LED off, while 128 turns them on 50% and 255 on 100%"""
         self.led_blue.publish(led_blue)
     #Set reserved Uint8
     def set_led_green(self, led_green):
+        """value can be an integer between 0 and 255, turns on the green LED of Helene. 0 turns the LED off, while 128 turns them on 50% and 255 on 100%"""
         self.led_green.publish(led_green)
 
     #send new position
@@ -109,8 +112,25 @@ class helene_helper:
         #return [current_pose.orientation.x, current_pose.orientation.y, current_pose.orientation.z, current_pose.orientation.w]
         return [self.pose_goal.orientation.x, self.pose_goal.orientation.y,  self.pose_goal.orientation.z,  self.pose_goal.orientation.w]
 
-    #Set absolute position
-    def move_ptp_abs_pos(self, x, y, z, a_r, a_p, a_y):
+    #Goto absolute position
+    #def move_ptp_abs_pos(self, x, y, z, a_r, a_p, a_y):
+    def move_ptp_abs(self, Frame_Input):
+        """let helene move ptp to a given frame. Frame_Input is referenced to the base coordinate system and is absolute. """
+        length = len(Frame_Input)
+        if length == 3:
+            #Orientation is missing, adding it. 
+            Frame_Input.append(pi)
+            Frame_Input.append(-pi/2)
+            Frame_Input.append(0)          
+        if length != 6:
+            print("Dimension of Input Frame is wrong, quitting")
+            return
+        x = Frame_Input[0]
+        y = Frame_Input[1]
+        z = Frame_Input[2]
+        a_r = Frame_Input[3]
+        a_p = Frame_Input[4]
+        a_y = Frame_Input[5]
         self.pose_goal.position.x = x
         self.pose_goal.position.y = y
         self.pose_goal.position.z = z
@@ -120,23 +140,55 @@ class helene_helper:
 
     #Set relative position
     #FIX THIS - Not sure with Quaternion
-    def move_ptp_rel_pos(self, x, y, z, ar_r, ar_p, ar_y):
+    def move_ptp_rel(self, Frame_Rel_Input):
+        """let helene move ptp to a given frame. Frame_Rel_Input is referenced to the base coordinate system and is relative. """
+        length = len(Frame_Rel_Input)
+        if length == 3:
+            #Orientation is missing, adding it. 
+            Frame_Rel_Input.append(0)
+            Frame_Rel_Input.append(0)
+            Frame_Rel_Input.append(0)          
+        if length != 6:
+            print("Dimension of Input Frame is wrong, quitting")
+            return
+        x = Frame_Rel_Input[0]
+        y = Frame_Rel_Input[1]
+        z = Frame_Rel_Input[2]
+        a_r = Frame_Rel_Input[3]
+        a_p = Frame_Rel_Input[4]
+        a_y = Frame_Rel_Input[5]
         self.pose_goal = self.move_group.get_current_pose().pose
         self.pose_goal.position.x += x
         self.pose_goal.position.y += y
         self.pose_goal.position.z += z
-        self.pose_goal.orientation = geometry_msgs.msg.Quaternion(*(quaternion_multiply(quaternion_from_euler(ar_r, ar_p, ar_y), self.__get_last_goal_quaterion__())))
+        self.pose_goal.orientation = geometry_msgs.msg.Quaternion(*(quaternion_multiply(quaternion_from_euler(a_r, a_p, a_y), self.__get_last_goal_quaterion__())))
         self.move_group.set_pose_target(self.pose_goal)
         self.__position_go__()
 
     #Set relative position and drive cartesian to it
     #FIX THIS - Not sure with Quaternion
-    def move_lin_rel_pos(self, x, y, z, ar_r, ar_p, ar_y):
+    def move_lin_rel(self, Frame_Rel_Input):
+        """let helene move lin to a given frame. Frame_Rel_Input is referenced to the base coordinate system and is relative. """
+        length = len(Frame_Rel_Input)
+        if length == 3:
+            #Orientation is missing, adding it. 
+            Frame_Rel_Input.append(0)
+            Frame_Rel_Input.append(0)
+            Frame_Rel_Input.append(0)          
+        if length != 6:
+            print("Dimension of Input Frame is wrong, quitting")
+            return
+        x = Frame_Rel_Input[0]
+        y = Frame_Rel_Input[1]
+        z = Frame_Rel_Input[2]
+        a_r = Frame_Rel_Input[3]
+        a_p = Frame_Rel_Input[4]
+        a_y = Frame_Rel_Input[5]
         self.pose_goal = self.move_group.get_current_pose().pose
         self.pose_goal.position.x += x
         self.pose_goal.position.y += y
         self.pose_goal.position.z += z
-        self.pose_goal.orientation = geometry_msgs.msg.Quaternion(*(quaternion_multiply(quaternion_from_euler(ar_r, ar_p, ar_y), self.__get_last_goal_quaterion__())))
+        self.pose_goal.orientation = geometry_msgs.msg.Quaternion(*(quaternion_multiply(quaternion_from_euler(a_r, a_p, a_y), self.__get_last_goal_quaterion__())))
         #self.move_group.set_pose_target(self.pose_goal)
         waypoints = []
         waypoints.append(copy.deepcopy(self.pose_goal)) #Need to deepcopy that!     
@@ -158,31 +210,49 @@ class helene_helper:
 
 
     #Set cartesian pos
-    def move_lin_abs_pos(self, raw_waypoint):
+    def move_lin_abs(self, Frame_Input):
+        """let helene move lin to a given frame. Frame_Input is referenced to the base coordinate system and is absolute. """
+        length = len(Frame_Input)
+        if length == 3:
+            #Orientation is missing, adding it. 
+            Frame_Input.append(0)
+            Frame_Input.append(0)
+            Frame_Input.append(0)          
+        if length != 6:
+            print("Dimension of Input Frame is wrong, quitting")
+            return
+        x = Frame_Input[0]
+        y = Frame_Input[1]
+        z = Frame_Input[2]
+        a_r = Frame_Input[3]
+        a_p = Frame_Input[4]
+        a_y = Frame_Input[5]
+        self.pose_goal = self.move_group.get_current_pose().pose
+        self.pose_goal.position.x = x
+        self.pose_goal.position.y = y
+        self.pose_goal.position.z = z
+        self.pose_goal.orientation = geometry_msgs.msg.Quaternion(*(quaternion_from_euler(a_r, a_p, a_y)))
+        #self.move_group.set_pose_target(self.pose_goal)
         waypoints = []
-        current_pose = self.move_group.get_current_pose().pose
-        current_or = self.__get_last_goal_quaterion__()
-        curpoint = [current_pose.position.x,current_pose.position.y,current_pose.position.z, current_or]
-        waypoints.append(curpoint)
-        self.pose_goal.position.x = raw_waypoint[0]
-        self.pose_goal.position.y = raw_waypoint[1]
-        self.pose_goal.position.z = raw_waypoint[2]
-        self.pose_goal.orientation = geometry_msgs.msg.Quaternion(*quaternion_from_euler(raw_waypoint[3], raw_waypoint[4], raw_waypoint[5]))
-        waypoints.append(copy.deepcopy(self.pose_goal)) #Need to deepcopy that!            
-
+        waypoints.append(copy.deepcopy(self.pose_goal)) #Need to deepcopy that!     
         (plan, fraction) = self.move_group.compute_cartesian_path(waypoints, 0.01, 0.0, path_constraints = self.cartesian_constraints)  # waypoints to follow  # eef_step  # jump_threshold
         plan = self.move_group.retime_trajectory(self.move_group.get_current_state(),plan,globalVelocityScaling)
-        #Show
-        display_trajectory = moveit_msgs.msg.DisplayTrajectory()
-        display_trajectory.trajectory_start = self.robot.get_current_state()
-        display_trajectory.trajectory.append(plan)
-        # Publish
-        self.display_trajectory_publisher.publish(display_trajectory)
-        #Execute
-        self.move_group.execute(plan, wait=True)
+        if fraction < 0.2:
+            print("Trajectory solution seems bad. Are you trying to drive through a singularity? I WONT drive Cartesian to the destination.")
+            self.move_group.set_pose_target(self.pose_goal)
+            self.__position_go__()
+        else:
+            #Show
+            display_trajectory = moveit_msgs.msg.DisplayTrajectory()
+            display_trajectory.trajectory_start = self.robot.get_current_state()
+            display_trajectory.trajectory.append(plan)
+            # Publish
+            self.display_trajectory_publisher.publish(display_trajectory)
+            #Execute
+            self.move_group.execute(plan, wait=True)
 
     #Set cartesian path
-    def move_lin_path(self, raw_waypoints):
+    def move_lin_abs_path(self, raw_waypoints):
         waypoints = []
         for i in raw_waypoints:
             self.pose_goal.position.x = i[0]
