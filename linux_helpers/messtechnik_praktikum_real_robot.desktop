@@ -4,7 +4,7 @@ Name=MTP: Real Helene with Needle
 Comment=Mit dieser Verknuepfung werden alle erforderlichen Nodes zum Benutzen des Helene Roboterarms gestartet. Auch wird sich mit einem anderen Roscore übers Netzwerk verbunden. 
 GenericName=MTP: Real Helene with Needle
 Keywords=System;Robotarm;ROS;noetic;Helene
-Exec=bash -ic "sed -i '/export ROS_MASTER_URI/d' ~/.bashrc;source /opt/ros/noetic/setup.bash;source ~/ros_ws/devel/setup.bash; sleep 1;roslaunch messtechnik_praktikum messtechnik_praktikum.launch simulation:=false"
+Exec=bash -ic "pkill -f ros; sed -i '/export ROS_MASTER_URI/d' ~/.bashrc;source /opt/ros/noetic/setup.bash;source ~/ros_ws/devel/setup.bash; sleep 1;roslaunch messtechnik_praktikum messtechnik_praktikum.launch simulation:=false"
 Terminal=true
 Type=Application
 Icon=messtechnik_praktikum_real_robot.png
