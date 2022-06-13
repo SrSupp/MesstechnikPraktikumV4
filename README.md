@@ -1,4 +1,4 @@
-Author: Sven Suppelt		Date: 13.09.2022
+Author: Sven Suppelt		      Date: 13.09.2022
 <a href="url"><img src="hardware/title.png" width="100%"></a>
 
 # Messtechnik Praktikum: Grundlagen der Medizinrobotik
