@@ -24,7 +24,7 @@ Input_Filter = Input_Cut;
 
 #Wirf einen Tiefpassfilter über x,y und z, da die Signale des Roboterarms leicht rauschen. 
 #Input_Filter(:,2:4) = lowpass(Input_Cut(:,2:4),4,50);
-fc = 10; #Cutoff Frequenz von 5 Hz
+fc = 5; #Cutoff Frequenz von 5 Hz
 fs = 1/(Input_Cut(2,1) - Input_Cut(1,1)); 
 w = fc/(fs/2);
 [b,a]=butter (2, w); #Butterworth-Filter 2. Ordnung zusammenbasteln
