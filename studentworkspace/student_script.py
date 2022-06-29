@@ -3,7 +3,7 @@ helene = MoveGroupHelper() #Create Helene Object
 helene.add_tumor() 
 
 #A Few helpful commands:
-#Frame_Start = [0.247,0.0,0.345, *(pi, -pi/2, 0)]        --        Defines a new Frame with the Name "Frame_Start". Units are in meter/rad.
+#Frame_Home = [0.247,0.0,0.345, *(pi, -pi/2, 0)]        --        Defines a new Frame with the Name "Frame_Start". Units are in meter/rad.
 #helene.set_led_blue(value)       --       value can be an integer between 0 and 255, turns on the blue LED of Helene
 #helene.set_led_green(value)       --       value can be an integer between 0 and 255, turns on the green LED of Helene
 #helene.set_speed_scaler(value)     --       Sets each movement to the desired speed. Value is a float between 0 and 1

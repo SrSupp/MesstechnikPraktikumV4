@@ -235,35 +235,6 @@ def main():
     helene.set_led_green(0)
     helene.set_speed_scaler(1)
     helene.move_ptp_home_pos()
-
-    print(helene.get_actual_pos())
-    helene.set_speed_scaler(0.3)
-    helene.set_led_green(255)
-    Frame_Start = [0.289,0.0,0.30, *(pi, -pi/2, 0)]
-    helene.move_ptp_abs(Frame_Start)
-    print(helene.get_actual_pos())
-
-    helene.sleep(1)
-
-    helene.probing_start()
-    helene.set_led_green(0)
-    helene.set_led_blue(255)
-    helene.set_speed_scaler(0.02)
-    Frame_Test = [0.289,0.0,0.22, *(pi, -pi/2, 0)]
-    helene.move_lin_abs(Frame_Test)
-    helene.sleep(3)
-    print(helene.get_actual_pos())
-    helene.probing_end()
-
-    helene.set_led_green(255)
-    helene.set_led_blue(0)
-    helene.set_speed_scaler(0.1)
-    helene.move_lin_rel([0,0,0.1,*(0,0,0)])
-
-    helene.set_led_blue(0)
-    helene.set_led_green(0)
-    helene.set_speed_scaler(1)
-    helene.move_ptp_home_pos()
     print("Fertig")
 
     print("\n-- Helper demo complete! --")
