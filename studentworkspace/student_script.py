@@ -12,8 +12,6 @@ helene.add_tumor()
 #helene.move_ptp_home_pos()         --       let helene move to its home position via a ptp motion
 #helene.move_ptp_abs(Frame_Input)  --  let helene move ptp to a given frame. 
 #helene.move_lin_abs(Frame_Input)  --  let helene move lin to a given frame. 
-#helene.move_lin_rel(Frame_Rel_Input)   -- let helene move linearly relative to its actual position. For example if d_z is -0.15 Helene will drive 15cm down. 
-#helene.move_ptp_rel(Frame_Rel_Input)   -- let helene move ptp relative to its actual position. For example if d_z is -0.15 Helene will drive 15cm down. 
 #helene.probing_start()   --    Please use this command before the puncture into the Tumor. It signals to the data logger when the measurement data should be saved.
 #helene.probing_end()     --    After the puncture please use this command. It signals to the data logger when the measurement data should no longer be saved.
 #A more detailed instruction in given in the script!
