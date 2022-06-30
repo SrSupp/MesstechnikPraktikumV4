@@ -16,7 +16,5 @@ cp Start_Small_DataLoggerMT.desktop ~/.local/share/applications/Start_Small_Data
 cp Connect_USB_realHelene.desktop ~/.local/share/applications/Connect_USB_realHelene.desktop
 cp MTP_ResetEverything.desktop ~/.local/share/applications/MTP_ResetEverything.desktop
 
-sudo apt-get install octave
-sudo apt-get install octave-signal
 
 echo "Fertig :)"
