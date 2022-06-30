@@ -1,3 +1,4 @@
+#Es muss octave und octave-signal installiert sein, damit das Skript läuft. 
 clc;clear;close all;
 pkg load signal;
 #Finde den neusten Datensatz einer Helene und lade ihn ein:
