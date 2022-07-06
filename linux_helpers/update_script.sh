@@ -5,7 +5,6 @@ cd ~/ros_ws/src/MesstechnikPraktikumV6/linux_helpers/
 ./install_icons.sh
 cd ~/Downloads/; rm -rf * 
 
-
-gsettings get org.gnome.desktop.background picture-uri'file:///home/pi/ros_ws/src/MesstechnikPraktikumV6/hardware/helene_background.png'
+gsettings set org.gnome.desktop.background picture-uri file:////home/pi/ros_ws/src/MesstechnikPraktikumV6/hardware/helene_background.png
 
 echo "Fertig :), Viel Spaß im Praktikum!"
