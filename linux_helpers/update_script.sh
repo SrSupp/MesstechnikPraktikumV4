@@ -5,7 +5,7 @@ cd ~/ros_ws/src/MesstechnikPraktikumV6/linux_helpers/
 ./install_icons.sh
 cd ~/Downloads/; rm -rf * 
 
-cp ~/ros_ws/src/MesstechnikPraktikumV6/hardware/helene_background.png usr/share/backgrounds/helene_background.png
+cp ~/ros_ws/src/MesstechnikPraktikumV6/hardware/helene_background.png /usr/share/backgrounds/helene_background.png
 gsettings set org.gnome.desktop.background picture-uri
 usr/share/backgrounds/helene_background.png
 
