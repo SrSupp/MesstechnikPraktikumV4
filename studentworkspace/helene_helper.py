@@ -283,7 +283,7 @@ class helene_helper:
 
     #Return the current actual position. Orientation is given as quaternion! This function currently is somehow a bit fucked. 
     def get_actual_pos(self):
-    	"""Returns the postition of the robot head"""
+        """Returns the postition of the robot head"""
         current_pose = self.move_group.get_current_pose().pose
         current_or = [current_pose.orientation.x, current_pose.orientation.y,  current_pose.orientation.z,  current_pose.orientation.w]
         curpoint = [current_pose.position.x,current_pose.position.y,current_pose.position.z, (current_or)]
@@ -292,8 +292,7 @@ class helene_helper:
     #Set home position
     #FIXED FIX THIS - Maybe add correct home position which is currently named straight in urdf
     def move_ptp_home_pos(self):
-    """Helene will move to its home position with a ptp move. Helene will automatically move to this position after being turned on.
-    It is advised to move Helene to the home position at the start and end of a script."""
+        """Helene will move to its home position with a ptp move. Helene will automatically move to this position after being turned on. It is advised to move Helene to the home position at the start and end of a script."""
         self.move_group.set_named_target("home")
         self.__position_go__()
 
