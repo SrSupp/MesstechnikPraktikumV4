@@ -58,7 +58,7 @@ class MoveGroupHelper(helene_helper):
     self.__add_hollow_cylinder()
 
   def sleep(self, time_in_sec):
-  """No operation for the specified time in seconds"""
+    """No operation for the specified time in seconds"""
     rospy.sleep(time_in_sec)
 
   def get_cylinder_pose(self):
@@ -125,11 +125,11 @@ class MoveGroupHelper(helene_helper):
     #self.move_group.set_max_acceleration_scaling_factor(1)
 
   def probing_start(self):
-  """Use before a meassurement move. It signals the datalogger to start saving data"""
+    """Use before a meassurement move. It signals the datalogger to start saving data"""
     self.set_reserved(1)
 
   def probing_end(self):
-  """Use after a measurement move. It signals the datalogger to stop saving data"""
+    """Use after a measurement move. It signals the datalogger to stop saving data"""
     self.set_reserved(0)
 
 
