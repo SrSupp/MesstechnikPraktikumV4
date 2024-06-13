@@ -10,7 +10,7 @@ Input = csvread(youngestFile);
 
 #Checke ob in den Daten ein Einstichsvorgang vorhanden ist.
 if max(Input(:,6)) < 0.5
-  error ("Du hast wahrscheinlich vergessen, probing_start() und probing_end() zu benutzen. In den Messdaten kann ich die Markierung nicht wieder finden.");
+  error ("Du hast wahrscheinlich vergessen, probing_start() und probing_end() zu benutzen. In den Messdaten kann ich die Markierung nicht finden.");
 end
 
 #Lösche alles in Input, das nichts mit dem Einstich zu tun hat
