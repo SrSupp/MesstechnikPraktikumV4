@@ -8,6 +8,11 @@ youngestFile = fullfile(d(index).folder, d(index).name)
 Input = csvread(youngestFile);
 #in der Csv-Datei steht erst die Zeit in s, dann x y z Koordinate in m, gefolgt von der Kraft in mv/v und dann dem reserved-Topic
 
+#Checke ob in den Daten ein Einstichsvorgang vorhanden ist.
+if max(Input(:,6)) < 0.5
+  error ("Du hast wahrscheinlich vergessen, probing_start() und probing_end() zu benutzen. In den Messdaten kann ich die Markierung nicht wieder finden.");
+end
+
 #Lösche alles in Input, das nichts mit dem Einstich zu tun hat
 Input_Cut = Input(Input(:,6)>0.5,1:5);
 
