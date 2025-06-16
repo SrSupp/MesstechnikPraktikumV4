@@ -6,7 +6,7 @@ cd ~/ros_ws/src/MesstechnikPraktikumV6/linux_helpers/
 cd ~/Downloads/; rm -rf * 
 cd ~/Schreibtisch/; rm -rf * 
 
-gsettings set org.gnome.desktop.background picture-uri file:////home/pi/ros_ws/src/MesstechnikPraktikumV4/hardware/helene_background_eval2024.png
-#gsettings set org.gnome.desktop.background picture-uri file:///usr/share/backgrounds/warty-final-ubuntu.png
+#gsettings set org.gnome.desktop.background picture-uri file:////home/pi/ros_ws/src/MesstechnikPraktikumV4/hardware/helene_background_eval2024.png
+gsettings set org.gnome.desktop.background picture-uri file:///usr/share/backgrounds/warty-final-ubuntu.png
 
 echo "Fertig :), Viel Spaß im Praktikum!"
